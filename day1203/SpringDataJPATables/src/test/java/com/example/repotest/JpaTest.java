@@ -56,6 +56,26 @@ public class JpaTest {
 			userAccount.setEmail("taiji.com");
 			userAccountRepository.save(userAccount);
 		}
+		
+		if( userAccountRepository.findOne("admin2")==null ) {
+			UserAccount userAccount = new UserAccount();
+			userAccount.setCode("admin2");
+			userAccount.setName("liusaisai");
+			userAccount.setPassword("taiji");
+			userAccount.setEnabled(true);
+			userAccount.setEmail("taiji.com");
+			userAccountRepository.save(userAccount);
+		}
+		
+		if( userAccountRepository.findOne("user")==null ) {
+			UserAccount userAccount = new UserAccount();
+			userAccount.setCode("user");
+			userAccount.setName("liupisoyi");
+			userAccount.setPassword("taiji");
+			userAccount.setEnabled(true);
+			userAccount.setEmail("taiji.com");
+			userAccountRepository.save(userAccount);
+		}
 		count = userAccountRepository.count();
 		System.out.println("userAccountRepository.count=== ==="+count);
 	
@@ -65,8 +85,13 @@ public class JpaTest {
 	@Test
 	public void link() {
 		UserRoles roleAdmin = userRoleRepository.findOne("ROLE_ADMIN");
-		UserAccount userAdmin = userAccountRepository.findOne("admin");
+		UserAccount userAdmin = userAccountRepository.findOne("admin2");
 	
+		userAdmin.setUserRoles(roleAdmin);
+		userAccountRepository.save(userAdmin);
+		
+		roleAdmin = userRoleRepository.findOne("ROLE_USER");
+		userAdmin = userAccountRepository.findOne("user");
 		userAdmin.setUserRoles(roleAdmin);
 		userAccountRepository.save(userAdmin);
 	}
